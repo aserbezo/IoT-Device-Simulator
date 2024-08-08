@@ -31,11 +31,21 @@ Additionally, you'll need an Azure IoT Hub instance to connect to. Make sure you
 
 To get started, clone this repository to your local machine using Git:
 
-```bash
+```sh
 git clone https://github.com/yourusername/car-telemetry-simulation.git
 ```
+###  2. Create a Virtual Environment
+Create a virtual environment to isolate the project dependencies:
 
-### 2. Set Up Environment Variables
+```sh python -m venv venv
+```
+Activate the virtual environment:
+```sh
+.\venv\Scripts\activate
+```
+
+
+### 3. Set Up Environment Variables 
 Create a .env file in the root directory of the project and add your Azure IoT Hub device connection strings. The .env file should look like this:
 
 - jasonstatham_connection_string=Your_Jason_IoT_Hub_Connection_String
@@ -43,10 +53,10 @@ Create a .env file in the root directory of the project and add your Azure IoT H
 - johnyenglish_connection_string=Your_Johny_IoT_Hub_Connection_String
 
 
-### 3. Install Python Dependencies
+### 4. Install Python Dependencies
 
 Install the required Python packages using pip:
-```bash
+```sh
 pip install -r requirements.txt
 ```
 
@@ -56,7 +66,7 @@ Make sure the requirements.txt file contains the following dependencies:
 - azure-iot-device
 
 
-### 4. Running the Simulation
+### 5. Running the Simulation
 
 To start the simulation, run the following command:
 
@@ -67,7 +77,7 @@ python main.py
 The script will simulate telemetry data for three cars, sending data to the Azure IoT Hub at the specified intervals.
 
 
-### 5. Project Structure
+### 6. Project Structure
 ```
 IoT-Device-Simulator/
 │
