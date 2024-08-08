@@ -32,8 +32,9 @@ Additionally, you'll need an Azure IoT Hub instance to connect to. Make sure you
 To get started, clone this repository to your local machine using Git:
 
 ```sh
-git clone https://github.com/yourusername/car-telemetry-simulation.git
+git clone https://github.com/aserbezo/IoT-Device-Simulator.git
 ```
+
 ###  2. Create a Virtual Environment
 Create a virtual environment to isolate the project dependencies:
 
