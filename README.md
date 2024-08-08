@@ -69,7 +69,7 @@ The script will simulate telemetry data for three cars, sending data to the Azur
 
 ### 5. Project Structure
 ```
-car-telemetry-simulation/
+IoT-Device-Simulator/
 │
 ├── routes/
 │   ├── sofia-burgas-route.json
