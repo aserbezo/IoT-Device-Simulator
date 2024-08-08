@@ -38,7 +38,8 @@ git clone https://github.com/aserbezo/IoT-Device-Simulator.git
 ###  2. Create a Virtual Environment
 Create a virtual environment to isolate the project dependencies:
 
-```sh python -m venv venv
+```sh
+python -m venv venv
 ```
 Activate the virtual environment:
 ```sh
