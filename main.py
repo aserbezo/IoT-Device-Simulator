@@ -45,14 +45,24 @@ sofia_vidin = json.loads(johnyroute)
 ########################################################################
 # Define possible values for speed, temperature, alerts, and tire pressure
 ########################################################################
-speed = [60, 64, 65, 68, 70, 75, 77, 74, 80, 82, 88, 85, 81, 90, 92, 94, 96, 97, 95, 100, 111, 104, 105, 110, 120, 150,
-         160]
+speed = [60, 64, 65, 68, 70, 75, 77, 74, 80, 82, 88, 85, 81, 90, 92, 94, 96, 97, 95, 100, 111, 104, 105, 110, 120, 150,160]
 temp = [75, 80, 90, 100, 76, 90, 100, 110, 115, 130, 77, 83]
-alert = ['None', 'Battery Charge Warning Light', 'Oil Pressure Warning Light', 'Brake Warning Light',
-         'Transmission Temperature', 'None', 'None', 'None', 'None']
-#  Normal 30 to 35 PSI
 tire_pressure = [30, 31, 32, 33, 29, 25]
+acceleration = [2.5,3.2,-1.8,0.0,4.1,-2.3,1.7,2.9,3.5,-0.7]
+rpm = [2200, 2400, 2100, 2300, 2500, 2600, 2400, 2000, 2200, 2350]
+braking = [-2.5, -3.0, -1.8, -4.2, -2.9, -3.3, -1.5, -2.7, -4.0, -2.1]
+seatbelt_status_array = [True, True, False, False, True, False, True, True, False, False, False, True, False, True, False, False, False, False, False, False, True, True, False, False, True, True, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, True, False, False, False, False, False, True, True, True, True, False, False, False, True, False, True, True, True, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, True, True, False, False, False]
+engine_check = [True, True, False, False, True, False, True, True, False, False, False, True, False, True, False, False, False, False, False, False, True, True, False, False, True, True, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, True, False, False, False, False, False, True, True, True, True, False, False, False, True, False, True, True, True, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, True, True, False, False, False]
+low_fuel = [True, True, False, False, True, False, True, True, False, False, False, True, False, True, False, False, False, False, False, False, True, True, False, False, True, True, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, True, False, False, False, False, False, True, True, True, True, False, False, False, True, False, True, True, True, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, True, True, False, False, False]
+tire_pressure_low = [True, True, False, False, True, False, True, True, False, False, False, True, False, True, False, False, False, False, False, False, True, True, False, False, True, True, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, True, False, False, False, False, False, True, True, True, True, False, False, False, True, False, True, True, True, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, True, True, False, False, False]
+battery_low = [True, True, False, False, True, False, True, True, False, False, False, True, False, True, False, False, False, False, False, False, True, True, False, False, True, True, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, True, False, False, False, False, False, True, True, True, True, False, False, False, True, False, True, True, True, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, True, True, False, False, False]
+voltage = [12.6, 13.2, 12.8, 13.0, 12.7, 12.9, 13.1, 12.5, 12.8, 13.3]
 
+######################################################################
+# delay to send the messages to IoT hub
+######################################################################
+
+time_delay = 10
 
 ########################################################################
 # Function to send a message to the Azure IoT Hub
@@ -91,29 +101,61 @@ async def jason_car():
     for value in sofia_burgas.values():
         # Extract the latitude and longitude from the route data
         for i in value:
-            Latitude = i[0]
-            Longitude = i[1]
-            # Get the current time
+            Latitude = i[1]
+            Longitude = i[0]
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
-            # Randomly select values for temperature, speed, tire pressure, and alert
             curr_temp = random.choice(temp)
             curr_speed = random.choice(speed)
             curr_tire_pressure = random.choice(tire_pressure)
-            curr_alet = random.choice(alert)
-            # Create the message content dictionary
-            message_content = {'DeviceId': 'jason',
-                               'Latitude': Latitude,
-                               'Longitude': Longitude,
-                               'time': current_time,
-                               'temp': curr_temp,
-                               'tire_press': curr_tire_pressure,
-                               'speed': curr_speed,
-                               'alert': curr_alet}
+            curr_acceleration = random.choice(acceleration)
+            curr_rpm = random.choice(rpm)
+            curr_braking = random.choice(braking)
+            seatbelt_status = random.choice(seatbelt_status_array)
+            curr_engine_check = random.choice(engine_check)
+            curr_low_fuel = random.choice(low_fuel)
+            curr_tire_pressure_low = random.choice(tire_pressure_low)
+            curr_battery_low = random.choice(battery_low)
+            curr_voltage = random.choice(voltage)
+            message_content = {
+                "vehicle_id": "ABC12345",
+                "timestamp": current_time,
+                "location": {
+                    "latitude": Latitude,
+                    "longitude": Longitude,
+                },
+                "speed": curr_speed,  # speed in miles per hour
+                "engine_status": {
+                    "rpm": curr_rpm,
+                    "temperature": curr_temp,  # temperature in celsie
+                },
+                "battery_status": {
+                    "voltage": curr_voltage,  # battery voltage in volts
+                    "charge_state": "charging"
+                },
+                "tire_pressure": {
+                    "front_left": curr_tire_pressure,  # pressure in PSI
+                    "front_right": curr_tire_pressure,
+                    "rear_left": curr_tire_pressure,
+                    "rear_right": curr_tire_pressure
+                },
+                "driver_behavior": {
+                    "acceleration": curr_acceleration,
+                    "braking": curr_braking,
+                    "seatbelt_status": seatbelt_status
+
+                },
+                "alerts": {
+                    "engine_check": curr_engine_check,
+                    "low_fuel": curr_low_fuel,
+                    "tire_pressure_low": curr_tire_pressure_low,
+                    "battery_low": curr_battery_low
+                }
+            }
 
             # Send the message to IoT Hub asynchronously
             await send_message_to_iot_hub(jasonstatham_connection_string, message_content)
-            await asyncio.sleep(2)  # Adjust for faster/slower update frequency
+            await asyncio.sleep(time_delay)  # Adjust for faster/slower update frequency
 
 
 ########################################################################
@@ -122,26 +164,61 @@ async def jason_car():
 async def james_car():
     for value in sofia_varna.values():
         for i in value:
-            Latitude = i[0]
-            Longitude = i[1]
+            Latitude = i[1]
+            Longitude = i[0]
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
             curr_temp = random.choice(temp)
             curr_speed = random.choice(speed)
             curr_tire_pressure = random.choice(tire_pressure)
-            curr_alet = random.choice(alert)
-            message_content = {'DeviceId': 'james',
-                               'Latitude': Latitude,
-                               'Longitude': Longitude,
-                               'time': current_time,
-                               'temp': curr_temp,
-                               'tire_press': curr_tire_pressure,
-                               'speed': curr_speed,
-                               'alert': curr_alet}
+            curr_acceleration = random.choice(acceleration)
+            curr_rpm = random.choice(rpm)
+            curr_braking = random.choice(braking)
+            seatbelt_status = random.choice(seatbelt_status_array)
+            curr_engine_check = random.choice(engine_check)
+            curr_low_fuel = random.choice(low_fuel)
+            curr_tire_pressure_low = random.choice(tire_pressure_low)
+            curr_battery_low = random.choice(battery_low)
+            curr_voltage = random.choice(voltage)
+            message_content = {
+                "vehicle_id": "ABC12346",
+                "timestamp": current_time,
+                "location": {
+                    "latitude": Latitude,
+                    "longitude": Longitude,
+                },
+                "speed": curr_speed,  # speed in miles per hour
+                "engine_status": {
+                    "rpm": curr_rpm,
+                    "temperature": curr_temp,  # temperature in celsie
+                },
+                "battery_status": {
+                    "voltage": curr_voltage,  # battery voltage in volts
+                    "charge_state": "charging"
+                },
+                "tire_pressure": {
+                    "front_left": curr_tire_pressure,  # pressure in PSI
+                    "front_right": curr_tire_pressure,
+                    "rear_left": curr_tire_pressure,
+                    "rear_right": curr_tire_pressure
+                },
+                "driver_behavior": {
+                    "acceleration": curr_acceleration,
+                    "braking": curr_braking,
+                    "seatbelt_status": seatbelt_status
+
+                },
+                "alerts": {
+                    "engine_check": curr_engine_check,
+                    "low_fuel": curr_low_fuel,
+                    "tire_pressure_low": curr_tire_pressure_low,
+                    "battery_low": curr_battery_low
+                }
+            }
 
             # Run send_message_to_iot_hub asynchronously
             await send_message_to_iot_hub(jamesbond_connection_string, message_content)
-            await asyncio.sleep(2)  # Adjust for faster/slower update frequency
+            await asyncio.sleep(time_delay)  # Adjust for faster/slower update frequency
 
 
 ########################################################################
@@ -150,26 +227,61 @@ async def james_car():
 async def johny_car():
     for value in sofia_vidin.values():
         for i in value:
-            Latitude = i[0]
-            Longitude = i[1]
+            Latitude = i[1]
+            Longitude = i[0]
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
             curr_temp = random.choice(temp)
             curr_speed = random.choice(speed)
             curr_tire_pressure = random.choice(tire_pressure)
-            curr_alet = random.choice(alert)
-            message_content = {'DeviceId': 'Johny',
-                               'Latitude': Latitude,
-                               'Longitude': Longitude,
-                               'time': current_time,
-                               'temp': curr_temp,
-                               'tire_press': curr_tire_pressure,
-                               'speed': curr_speed,
-                               'alert': curr_alet}
+            curr_acceleration = random.choice(acceleration)
+            curr_rpm = random.choice(rpm)
+            curr_braking = random.choice(braking)
+            seatbelt_status = random.choice(seatbelt_status_array)
+            curr_engine_check = random.choice(engine_check)
+            curr_low_fuel = random.choice(low_fuel)
+            curr_tire_pressure_low = random.choice(tire_pressure_low)
+            curr_battery_low = random.choice(battery_low)
+            curr_voltage = random.choice(voltage)
+            message_content = {
+                "vehicle_id": "ABC12347",
+                "timestamp": current_time,
+                "location": {
+                    "latitude": Latitude,
+                    "longitude": Longitude,
+                },
+                "speed": curr_speed,  # speed in miles per hour
+                "engine_status": {
+                    "rpm": curr_rpm,
+                    "temperature": curr_temp,  # temperature in celsie
+                },
+                "battery_status": {
+                    "voltage": curr_voltage,  # battery voltage in volts
+                    "charge_state": "charging"
+                },
+                "tire_pressure": {
+                    "front_left": curr_tire_pressure,  # pressure in PSI
+                    "front_right": curr_tire_pressure,
+                    "rear_left": curr_tire_pressure,
+                    "rear_right": curr_tire_pressure
+                },
+                "driver_behavior": {
+                    "acceleration": curr_acceleration,
+                    "braking": curr_braking,
+                    "seatbelt_status": seatbelt_status
+
+                },
+                "alerts": {
+                    "engine_check": curr_engine_check,
+                    "low_fuel": curr_low_fuel,
+                    "tire_pressure_low": curr_tire_pressure_low,
+                    "battery_low": curr_battery_low
+                }
+            }
 
             # Run send_message_to_iot_hub asynchronously
             await send_message_to_iot_hub(johnyenglish_connection_string, message_content)
-            await asyncio.sleep(30)  # Adjust for faster/slower update frequency
+            await asyncio.sleep(time_delay)  # Adjust for faster/slower update frequency
 
 
 ########################################################################
@@ -190,7 +302,6 @@ async def run_all_functions():
 
 # Run the function to execute both main() and main1() concurrently
 asyncio.run(run_all_functions())
-
 
 """
 Key Points:
