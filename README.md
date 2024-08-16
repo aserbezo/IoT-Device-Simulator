@@ -31,23 +31,11 @@ Additionally, you'll need an Azure IoT Hub instance to connect to. Make sure you
 
 To get started, clone this repository to your local machine using Git:
 
-```sh
-git clone https://github.com/aserbezo/IoT-Device-Simulator.git
+```bash
+git clone https://github.com/yourusername/car-telemetry-simulation.git
 ```
 
-###  2. Create a Virtual Environment
-Create a virtual environment to isolate the project dependencies:
-
-```sh
-python -m venv venv
-```
-Activate the virtual environment:
-```sh
-.\venv\Scripts\activate
-```
-
-
-### 3. Set Up Environment Variables 
+### 2. Set Up Environment Variables
 Create a .env file in the root directory of the project and add your Azure IoT Hub device connection strings. The .env file should look like this:
 
 - jasonstatham_connection_string=Your_Jason_IoT_Hub_Connection_String
@@ -55,10 +43,10 @@ Create a .env file in the root directory of the project and add your Azure IoT H
 - johnyenglish_connection_string=Your_Johny_IoT_Hub_Connection_String
 
 
-### 4. Install Python Dependencies
+### 3. Install Python Dependencies
 
 Install the required Python packages using pip:
-```sh
+```bash
 pip install -r requirements.txt
 ```
 
@@ -68,7 +56,7 @@ Make sure the requirements.txt file contains the following dependencies:
 - azure-iot-device
 
 
-### 5. Running the Simulation
+### 4. Running the Simulation
 
 To start the simulation, run the following command:
 
@@ -79,9 +67,9 @@ python main.py
 The script will simulate telemetry data for three cars, sending data to the Azure IoT Hub at the specified intervals.
 
 
-### 6. Project Structure
+### 5. Project Structure
 ```
-IoT-Device-Simulator/
+car-telemetry-simulation/
 │
 ├── routes/
 │   ├── sofia-burgas-route.json
@@ -92,6 +80,49 @@ IoT-Device-Simulator/
 ├── requirements.txt
 └── README.md
 ```
+
+### 6. Vehicle Status Update
+
+Message sent to Azure IoT Hub:
+
+```json
+{
+  "vehicle_id": "ABC12347",
+  "timestamp": "2024-08-14 11:52:50",
+  "location": {
+    "latitude": 42.69258944526666,
+    "longitude": 23.328606080076582
+  },
+  "speed": 70,
+  "engine_status": {
+    "rpm": 2600,
+    "temperature": 80
+  },
+  "battery_status": {
+    "voltage": 13.3,
+    "charge_state": "charging"
+  },
+  "tire_pressure": {
+    "front_left": 32,
+    "front_right": 32,
+    "rear_left": 32,
+    "rear_right": 32
+  },
+  "driver_behavior": {
+    "acceleration": 3.2,
+    "braking": -3.3,
+    "seatbelt_status": false
+  },
+  "alerts": {
+    "engine_check": true,
+    "low_fuel": false,
+    "tire_pressure_low": false,
+    "battery_low": true
+  }
+}
+
+
+
 
 - routes/: Contains JSON files that define the GPS coordinates for the car routes.
 - main.py: The main script that simulates car telemetry data and sends it to Azure IoT Hub.
