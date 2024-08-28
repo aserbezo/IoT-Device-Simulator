@@ -36,12 +36,30 @@ git clone https://github.com/yourusername/car-telemetry-simulation.git
 ```
 
 ### 2. Set Up Environment Variables
-Create a .env file in the root directory of the project and add your Azure IoT Hub device connection strings. The .env file should look like this:
 
-- jasonstatham_connection_string=Your_Jason_IoT_Hub_Connection_String
-- jamesbond_connection_string=Your_James_IoT_Hub_Connection_String
-- johnyenglish_connection_string=Your_Johny_IoT_Hub_Connection_String
 
+#### 1. Install the `python-dotenv` package
+
+To install the `python-dotenv` package, which allows you to read environment variables from a `.env` file in Python, you can use pip, the Python package installer:
+
+```sh
+pip install python-dotenv
+```
+To verify the installation, run:
+```sh
+pip show python-dotenv
+```
+- Create a .env file in the root directory of the project
+
+#### 2. Add Your Azure IoT Hub Device Connection Strings
+
+Copy the following names and only change your connection strings:
+
+```sh
+  jasonstatham_connection_string= {Your_Jason_IoT_Hub_Connection_String}
+  jamesbond_connection_string= {Your_James_IoT_Hub_Connection_String}
+  johnyenglish_connection_string={Your_Johny_IoT_Hub_Connection_String}
+```
 
 ### 3. Install Python Dependencies
 
